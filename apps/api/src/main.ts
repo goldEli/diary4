@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
     .setTitle('Diary API')
@@ -15,7 +16,7 @@ async function bootstrap() {
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('doc', app, document);
+  SwaggerModule.setup('swagger', app, document);
 
   await app.listen(process.env.PORT ?? 5001);
 }

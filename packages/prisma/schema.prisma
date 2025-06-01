@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./dist/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Diary {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  date    String  @db.VarChar(20)
+}

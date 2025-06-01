@@ -1,0 +1,17 @@
+{
+  "name": "@diary4/prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/client/index.js",
+  "scripts": {
+    "build": "npx prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.1",
+  "devDependencies": {
+    "@prisma/client": "^6.8.2",
+    "prisma": "^6.8.2"
+  }
+}

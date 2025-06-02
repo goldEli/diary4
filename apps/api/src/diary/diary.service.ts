@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateDiaryDto } from './dto/create-diary.dto';
 import { UpdateDiaryDto } from './dto/update-diary.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { PageDto } from '../common/dto/page.dto';
 
 @Injectable()
 export class DiaryService {
@@ -13,12 +14,28 @@ export class DiaryService {
     });
   }
 
-  findAll() {
-    return this.prisma.diary.findMany({
-      orderBy: {
-        date: 'desc',
-      },
-    });
+  async findAll(pageDto: PageDto) {
+    const { page = 1, pageSize = 10 } = pageDto;
+    const skip = (page - 1) * pageSize;
+
+    const [total, items] = await Promise.all([
+      this.prisma.diary.count(),
+      this.prisma.diary.findMany({
+        skip,
+        take: pageSize,
+        orderBy: {
+          date: 'desc',
+        },
+      }),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize),
+    };
   }
 
   findOne(id: number) {

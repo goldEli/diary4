@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { DiaryService } from './diary.service';
 import { CreateDiaryDto } from './dto/create-diary.dto';
 import { UpdateDiaryDto } from './dto/update-diary.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { PageDto } from '../common/dto/page.dto';
 
 @ApiTags('diary')
 @Controller('diary')
@@ -19,8 +20,8 @@ export class DiaryController {
   @Get()
   @ApiOperation({ summary: '获取所有日记' })
   @ApiResponse({ status: 200, description: '获取成功' })
-  findAll() {
-    return this.diaryService.findAll();
+  findAll(@Query() pageDto: PageDto) {
+    return this.diaryService.findAll(pageDto);
   }
 
   @Get(':id')
